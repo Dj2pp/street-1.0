@@ -40,12 +40,13 @@ body {
 }
 
 #mCvs {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Perfectly centers the canvas */
+  position: fixed; /* Use fixed so it stays relative to the screen */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh; /* Fixes the mobile address bar shift */
+  z-index: 1; 
   pointer-events: none;
-  z-index: 1;
 }
 
 .scr.on {
@@ -782,6 +783,9 @@ body {
   flex-shrink: 0;
   width: 100%;
   gap: 4px;
+  position: fixed;
+  bottom: 20px;
+  z-index: 10;
 }
 
 .tcL {
