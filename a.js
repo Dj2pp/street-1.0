@@ -793,16 +793,14 @@ function nextRound() {
     });
   });
 })();
-
+// At the bottom of a.js
+window.addEventListener('DOMContentLoaded', () => {
+  setupTouch();
+});
 // ═══════════════════════════════════════
 // KEYBOARD (desktop fallback)
 // ═══════════════════════════════════════
-const KM = { 'a': '1-left', 'd': '1-right', 'w': '1-jump', 'f': '1-punch', 'g': '1-kick', 'h': '1-block', 'j': '1-special', 'arrowleft': '2-left', 'arrowright': '2-right', 'arrowup': '2-jump', '1': '2-punch', '2': '2-kick', '3': '2-block', '4': '2-special' };
-document.addEventListener('keydown', e => {
-  const k = e.key.toLowerCase(); if (!KM[k]) return; e.preventDefault();
-  const [ps, a] = KM[k].split('-'), p = parseInt(ps);
-  if (gMode !== 'vs' && p === 2) return; act(p, a);
-});
+
 
 // INIT
 uCoinUI(); startMenu();
