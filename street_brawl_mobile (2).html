@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>STREET BRAWL</title>
+<link href = "a.css" rel="stylesheet"/>
+<script src="a.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- TITLE -->
+<div id="s-title" class="scr on">
+  <canvas id="mCvs"></canvas>
+  <div class="topbar">
+    <button class="tbtn" style="padding:5px 10px;font-size:12px;width:auto;" onclick="show('s-shop')">🏪 SHOP</button>
+    <div class="cdis">🪙 <span class="camt" id="cAmt">0</span></div>
+  </div>
+  <div style="text-align:center;position:relative;z-index:2;">
+    <div class="logo">STREET<br>BRAWL</div>
+    <div class="logo-sub">MOBILE EDITION</div>
+  </div>
+  <div id="mcRow"></div>
+  <div class="tbtns">
+    <button class="tbtn r" onclick="startMode('bot')">⚔️ VS BOT</button>
+    <button class="tbtn" onclick="startMode('vs')">👥 2 PLAYERS</button>
+    <button class="tbtn g" onclick="startMode('survival')">🌊 SURVIVAL</button>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div id="s-shop" class="scr">
+  <div class="shophead">
+    <button class="tbtn" style="padding:5px 10px;font-size:12px;width:auto;" onclick="show('s-title')">← BACK</button>
+    <span style="font-family:'Bangers',cursive;font-size:20px;color:var(--gold);letter-spacing:3px;">SHOP</span>
+    <div class="cdis">🪙 <span class="camt" id="cAmt2">0</span></div>
+  </div>
+  <div class="shopbody" id="shopItems"></div>
+</div>
+
+<!-- CHAR SELECT -->
+<div id="s-charsel" class="scr" style="padding:8px;">
+  <div class="cshd">CHOOSE FIGHTER</div>
+  <div class="dstrip" id="dstrip">
+    <button class="dbtn on"  onclick="setDiff('easy',this)">EASY</button>
+    <button class="dbtn"     onclick="setDiff('normal',this)">NORMAL</button>
+    <button class="dbtn"     onclick="setDiff('hard',this)">HARD</button>
+    <button class="dbtn"     onclick="setDiff('brutal',this)">BRUTAL</button>
+    <button class="dbtn"     onclick="setDiff('insane',this)">INSANE</button>
+  </div>
+  <div class="cgrid" id="charGrid"></div>
+  <div class="csbtns">
+    <button class="csbtn" onclick="show('s-title')">← BACK</button>
+    <button class="csbtn go" onclick="launchGame()">FIGHT! →</button>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="s-game" class="scr">
+  <div id="hud">
+    <div class="fhud">
+      <div class="fn" id="p1n">BLAZE</div>
+      <div class="hpw"><div class="hpd" id="hp1d" style="width:100%;right:0;left:auto;"></div><div class="hpf" id="hp1f" style="width:100%;background:#4ade80;"></div></div>
+      <div class="pips" id="pips1"></div>
+    </div>
+    <div id="tbox">
+      <div id="timer">60</div>
+      <div class="rstars" id="p1stars"></div>
+      <div class="rstars" id="p2stars"></div>
+      <div class="rlbl" id="rlbl">RND 1</div>
+      <div id="wbadge"></div>
+    </div>
+    <div class="fhud" id="p2hud">
+      <div class="fn" id="p2n">BOT</div>
+      <div class="hpw"><div class="hpd" id="hp2d" style="width:100%;left:0;right:auto;float:right;"></div><div class="hpf" id="hp2f" style="width:100%;background:#f87171;float:right;"></div></div>
+      <div class="pips" id="pips2"></div>
+    </div>
+  </div>
+  <div id="aw">
+    <canvas id="gc"></canvas>
+    <div id="il"><div class="iw" id="iword">POW!</div></div>
+    <div id="ml"><div id="mt">FIGHT!</div></div>
+    <div id="rl"><div id="rt">ROUND 1</div></div>
+    <div id="kl">
+      <canvas id="kc"></canvas>
+      <div id="kt">K.O.!</div>
+      <div id="wt"></div>
+      <div id="cr"></div>
+      <div class="kbtns">
+        <button id="rBtn" class="kbtn" style="background:var(--red);" onclick="nextRound()">NEXT</button>
+        <button id="mBtn" class="kbtn" style="background:#222;" onclick="show('s-title')">MENU</button>
+      </div>
+    </div>
+  </div>
+  <div id="svh"><div class="svrow">
+    <div class="svb"><div class="svv" id="svW">1</div><div class="svl">WAVE</div></div>
+    <div class="svb"><div class="svv" id="svS">0</div><div class="svl">SCORE</div></div>
+    <div class="svb"><div class="svv" id="svB">0</div><div class="svl">BEST</div></div>
+    <div class="svb"><div class="svv" id="svC">+0</div><div class="svl">COINS</div></div>
+  </div></div>
+  <div id="tc">
+    <div class="tcL">
+      <button class="tb tL" id="tcL">◀</button>
+      <button class="tb tJ" id="tcJ">↑ JMP</button>
+      <button class="tb tBk" id="tcBk">🛡 BLK</button>
+      <button class="tb tR" id="tcR">▶</button>
+    </div>
+    <div class="tcC"><button class="tmenu" onclick="show('s-title')">MENU</button></div>
+    <div class="tcR">
+      <button class="tb tP" id="tcP">👊 PNC</button>
+      <button class="tb tK" id="tcK">🦵 KCK</button>
+      <button class="tb tSp" id="tcSp">⭐ SPECIAL</button>
+    </div>
+  </div>
+</div>
+
+<!-- AD MODAL -->
+<div id="adM">
+  <div class="adbox">
+    <div class="adtit" id="adTit">WATCH AD</div>
+    <div class="adbody" id="adBody">Watch a short ad to unlock this character for free!</div>
+    <div class="adtmr" id="adTmr">5</div>
+    <button class="adcnf" id="adCnf" onclick="adDone()">CLAIM FREE!</button>
+    <button class="adskip" onclick="adClose()">✕ Skip</button>
+  </div>
+</div>
+
+
+</body>
+</html>
