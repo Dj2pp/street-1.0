@@ -811,9 +811,7 @@ function setupTouch() {
 // Only call it here
 window.addEventListener('DOMContentLoaded', setupTouch);
 // At the bottom of a.js
-window.addEventListener('DOMContentLoaded', () => {
-  setupTouch();
-});
+
 // ═══════════════════════════════════════
 // KEYBOARD (desktop fallback)
 // ═══════════════════════════════════════
