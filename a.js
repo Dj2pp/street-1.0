@@ -767,32 +767,49 @@ function nextRound() {
 // TOUCH CONTROLS — FIXED: no double listeners
 // Single touchstart per button, with hold interval for movement
 // ═══════════════════════════════════════
-(function setupTouch() {
+function setupTouch() {
   const btnActs = [
-    ['tcJ', 'jump'], ['tcBk', 'block'], ['tcP', 'punch'], ['tcK', 'kick'], ['tcSp', 'special'],
-    ['tcL', 'left'], ['tcR', 'right']
+    ['tcJ', 'jump'], ['tcBk', 'block'], ['tcP', 'punch'], 
+    ['tcK', 'kick'], ['tcSp', 'special'], ['tcL', 'left'], ['tcR', 'right']
   ];
+
   btnActs.forEach(([id, a]) => {
-    const el = document.getElementById(id); if (!el) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+
     const isMove = a === 'left' || a === 'right';
     let holdIv = null;
 
-    el.addEventListener('touchstart', e => {
+    const startAction = (e) => {
       e.preventDefault();
       act(1, a);
-      if (isMove) holdIv = setInterval(() => act(1, a), 75);
-    }, { passive: false });
+      if (isMove && !holdIv) {
+        holdIv = setInterval(() => act(1, a), 75);
+      }
+    };
 
-    el.addEventListener('touchend', e => {
-      e.preventDefault();
-      if (isMove) { clearInterval(holdIv); holdIv = null; }
-    }, { passive: false });
+    const stopAction = (e) => {
+      if (e) e.preventDefault();
+      if (holdIv) {
+        clearInterval(holdIv);
+        holdIv = null;
+      }
+    };
 
-    el.addEventListener('touchcancel', () => {
-      if (isMove) { clearInterval(holdIv); holdIv = null; }
-    });
+    // Touch Events
+    el.addEventListener('touchstart', startAction, { passive: false });
+    el.addEventListener('touchend', stopAction, { passive: false });
+    el.addEventListener('touchcancel', stopAction, { passive: false });
+
+    // Desktop Testing (Optional but helpful)
+    el.addEventListener('mousedown', startAction);
+    el.addEventListener('mouseup', stopAction);
+    el.addEventListener('mouseleave', stopAction);
   });
-})();
+}
+
+// Only call it here
+window.addEventListener('DOMContentLoaded', setupTouch);
 // At the bottom of a.js
 window.addEventListener('DOMContentLoaded', () => {
   setupTouch();
